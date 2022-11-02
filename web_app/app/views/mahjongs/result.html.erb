@@ -1,0 +1,6 @@
+<p>画像</p>
+  <% if @rise.image.attached? %>
+    <%= image_tag @rise.image, size: "300x200" %>
+  <% end %>
+
+  <%= @response_body %>
