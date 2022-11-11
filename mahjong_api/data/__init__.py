@@ -4,7 +4,7 @@ Released under the MIT license
 https://github.com/amdegroot/ssd.pytorch
 Updated by: Takuya Mouri
 """
-from .voc0712 import VOCDetection, VOCAnnotationTransform, VOC_CLASSES, VOC_ROOT, BCCD_CLASSES
+from .voc0712 import VOCDetection, VOCAnnotationTransform, VOC_CLASSES, VOC_ROOT, MAHJONG_CLASSES
 # handbook
 #from .coco import COCODetection, COCOAnnotationTransform, COCO_CLASSES, COCO_ROOT, get_label_map
 # handbook
@@ -12,6 +12,7 @@ from .config import *
 import torch
 import cv2
 import numpy as np
+
 
 def detection_collate(batch):
     """Custom collate fn for dealing with batches of images that have a different

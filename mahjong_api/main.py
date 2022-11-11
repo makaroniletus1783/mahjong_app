@@ -31,7 +31,7 @@ def create_image(image: Image):
     # 以下で画像の推論
     file = './test.jpg'
     image = cv2.imread(file, cv2.IMREAD_COLOR)
-    detections = pi.detect(image, pi.voc_labels)
+    detections = pi.detect(image, pi.mahjong_labels)
 
     os.remove(file_name)
 

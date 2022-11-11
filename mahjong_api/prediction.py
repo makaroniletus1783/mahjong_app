@@ -3,12 +3,16 @@ from matplotlib import pyplot as plt
 from ssd import build_ssd
 import cv2
 import numpy as np
+import torch.backends.cudnn as cudnn
 from torch.autograd import Variable
 import torch.nn as nn
 import torch
 import os
 import sys
 import io
+from data import VOCDetection, VOC_ROOT, VOCAnnotationTransform
+from data import MAHJONG_CLASSES as mahjong_labels
+
 module_path = os.path.abspath(os.path.join('..'))
 if module_path not in sys.path:
     sys.path.append(module_path)
@@ -22,8 +26,8 @@ device = 'cpu'
 
 # SSDネットワークを定義し、学習済みパラメータを読み込む
 net = build_ssd('test', 300, 21)
-net.load_weights('./weights/ssd300_mAP_77.43_v2.pth')
-net = net.to(device)
+net.load_weights('./weights/MAHJONG.pth')
+#net = net.to(device)
 #model_path = 'model.pth'
 #model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
 #net = torch.load('./weights/ssd300_mAP_77.43_v2.pth')

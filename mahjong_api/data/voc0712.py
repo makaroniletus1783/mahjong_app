@@ -25,11 +25,14 @@ else:
 
 BCCD_CLASSES = ('rbc', 'wbc', 'platelets')
 
+MAHJONG_CLASSES = MAHJONG_CLASSES = ('m1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6',
+                                     'p7', 'p8', 'p9', 's1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 'ton', 'nan', 'sya', 'pe', 'haku', 'hatu', 'tyun')
+
 VOC_CLASSES = ('aeroplane', 'bicycle', 'bird', 'boat',
-           'bottle', 'bus', 'car', 'cat', 'chair',
-           'cow', 'diningtable', 'dog', 'horse',
-           'motorbike', 'person', 'pottedplant',
-           'sheep', 'sofa', 'train', 'tvmonitor')
+               'bottle', 'bus', 'car', 'cat', 'chair',
+               'cow', 'diningtable', 'dog', 'horse',
+               'motorbike', 'person', 'pottedplant',
+               'sheep', 'sofa', 'train', 'tvmonitor')
 
 # handbook
 # note: if you used our download scripts, this should be right
@@ -41,6 +44,7 @@ dir_voc = osp.join(dir_cur, "..", "VOCdevkit")
 # データセットVOCの絶対パスを設定
 VOC_ROOT = osp.abspath(dir_voc)
 # handbook
+
 
 class VOCAnnotationTransform(object):
     """Transforms a VOC annotation into a Tensor of bbox coords and label index
@@ -57,7 +61,7 @@ class VOCAnnotationTransform(object):
 
     def __init__(self, class_to_ind=None, keep_difficult=False):
         self.class_to_ind = class_to_ind or dict(
-            zip(BCCD_CLASSES, range(len(BCCD_CLASSES))))
+            zip(MAHJONG_CLASSES, range(len(MAHJONG_CLASSES))))
         self.keep_difficult = keep_difficult
 
     def __call__(self, target, width, height):
@@ -81,7 +85,7 @@ class VOCAnnotationTransform(object):
             for i, pt in enumerate(pts):
                 cur_pt = int(bbox.find(pt).text) - 1
                 # scale height or width
-                #xmin,xmaxはwidth、ymin,ymaxはheightで割る
+                # xmin,xmaxはwidth、ymin,ymaxはheightで割る
                 cur_pt = cur_pt / width if i % 2 == 0 else cur_pt / height
                 # bndboxに正解座標をセット
                 bndbox.append(cur_pt)
@@ -112,12 +116,12 @@ class VOCDetection(data.Dataset):
     """
 
     def __init__(self, root,
-                # handbook
-                image_sets=[('BCCD', 'trainval')],
-                #image_sets=[('2007', 'trainval')],
-                # handbook
-                transform=None, target_transform=VOCAnnotationTransform(),
-                dataset_name='VOC0712'):
+                 # handbook
+                 image_sets=[('MAHJONG', 'trainval')],
+                 #image_sets=[('2007', 'trainval')],
+                 # handbook
+                 transform=None, target_transform=VOCAnnotationTransform(),
+                 dataset_name='VOC0712'):
         self.root = root
         self.image_set = image_sets
         self.transform = transform
@@ -151,7 +155,8 @@ class VOCDetection(data.Dataset):
 
         if self.transform is not None:
             target = np.array(target)
-            img, boxes, labels = self.transform(img, target[:, :4], target[:, 4])
+            img, boxes, labels = self.transform(
+                img, target[:, :4], target[:, 4])
             # to rgb
             # cv2のchannelsはbgrなのでrgbの順番に変更
             img = img[:, :, (2, 1, 0)]
