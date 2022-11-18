@@ -1,45 +1,93 @@
-from PIL import Image
-from io import BytesIO
+from data import VOC_CLASSES as voc_labels
+from matplotlib import pyplot as plt
+from ssd import build_ssd
+import cv2
 import numpy as np
-import tensorflow as tf
-from tensorflow.keras.applications import imagenet_utils
+import torch.backends.cudnn as cudnn
+from torch.autograd import Variable
+import torch.nn as nn
+import torch
+import os
+import sys
+import io
+from data import VOCDetection, VOC_ROOT, VOCAnnotationTransform
+from data import MAHJONG_CLASSES as mahjong_labels
+
+module_path = os.path.abspath(os.path.join('..'))
+if module_path not in sys.path:
+    sys.path.append(module_path)
+
+# GPUの設定
+# torch.cuda.is_available()
+# torch.set_default_tensor_type('torch.cuda.FloatTensor')
+#device = 'cuda' if torch.cuda.is_available() else 'cpu'
+device = 'cpu'
 
 
-model = None
+# SSDネットワークを定義し、学習済みパラメータを読み込む
+net = build_ssd('test', 300, 21)
+net.load_weights('./weights/MAHJONG.pth')
+#net = net.to(device)
+#model_path = 'model.pth'
+#model.load_state_dict(torch.load(model_path, map_location=torch.device('cpu')))
+#net = torch.load('./weights/ssd300_mAP_77.43_v2.pth')
+# 物体検出関数
 
 
-def load_model():
-    model = tf.keras.applications.MobileNetV2(weights="imagenet")
+def detect(image, labels):
 
-    return model
+    # 画像を(1,3,300,300)のテンソルに変換
+    rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    x = cv2.resize(image, (300, 300)).astype(np.float32)
+    x -= (104.0, 117.0, 123.0)
+    x = x.astype(np.float32)
+    x = x[:, :, ::-1].copy()
+    x = torch.from_numpy(x).permute(2, 0, 1)
+    xx = Variable(x.unsqueeze(0))
+
+    # 順伝播を実行し、推論結果を出力
+    # if torch.cuda.is_available():
+    #xx = xx.cuda()
+    y = net(xx)
+
+    # 表示設定
+    plt.figure(figsize=(8, 8))
+    colors = plt.cm.hsv(np.linspace(0, 1, 21)).tolist()
+    plt.imshow(rgb_image)
+    currentAxis = plt.gca()
+
+    # 推論結果をdetectionsに格納
+    detections = y.data
+    # 各検出のスケールのバックアップ
+    scale = torch.Tensor(rgb_image.shape[1::-1]).repeat(2)
+    labels_result = []
+
+    # バウンディングボックスとクラス名を表示
+    for i in range(detections.size(1)):
+        j = 0
+        # 確信度confが0.6以上のボックスを表示
+        # jは確信度上位200件のボックスのインデックス
+        # detections[0,i,j]は[conf,xmin,ymin,xmax,ymax]の形状
+        while detections[0, i, j, 0] >= 0.6:
+            score = detections[0, i, j, 0]
+            label_name = labels[i-1]
+            labels_result.append(labels[i-1])
+            display_txt = '%s: %.2f' % (label_name, score)
+            pt = (detections[0, i, j, 1:]*scale).cpu().numpy()
+            coords = (pt[0], pt[1]), pt[2]-pt[0]+1, pt[3]-pt[1]+1
+            color = colors[i]
+            currentAxis.add_patch(plt.Rectangle(
+                *coords, fill=False, edgecolor=color, linewidth=2))
+            currentAxis.text(pt[0], pt[1], display_txt, bbox={
+                             'facecolor': color, 'alpha': 0.5})
+            j += 1
+    plt.show()
+    plt.close()
+    return labels_result
 
 
-def read_image(image_encoded: Image.Image):
-    pil_image = Image.open(BytesIO(image_encoded))
+#file = './data/person.jpg'
+#image = cv2.imread(file, cv2.IMREAD_COLOR)
+#detections = detect(image, voc_labels)
 
-    return pil_image
-
-
-def preprocess(image: Image.Image):
-    image = np.asarray(image.resize((224, 224)))[..., :3]
-    image = np.expand_dims(image, 0)
-    image = image / 127.5 - 1.0
-
-    return image
-
-
-def predict(image: np.ndarray):
-    global model
-    if model is None:
-        model = load_model()
-    pred = imagenet_utils.decode_predictions(model.predict(image), 2)[0]
-
-    response = []
-    for i, res in enumerate(pred):
-        resp = {}
-        resp["class"] = res[1]
-        resp["confidence"] = f"{res[2] * 100:0.2f} %"
-
-        response.append(resp)
-
-    return response
+# print(detections)
