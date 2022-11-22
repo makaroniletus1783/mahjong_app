@@ -1,8 +1,10 @@
 <p>画像</p>
   <% if @rise.image.attached? %>
-    <%= image_tag @rise.image, size: "300x200" %>
+    <%= image_tag @rise.image, size: "300x200" %><br>
   <% end %>
 
-  <%= @response_body %>
+  <%= @response_body %><br>
+  
+  <%= @is_richi %><br>
 
   <%= link_to "戻る", root_path %>

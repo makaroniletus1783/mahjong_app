@@ -71,4 +71,6 @@ Rails.application.configure do
   # 下記のコードを追加
   Rails.application.routes.default_url_options[:host] = "localhost"
   Rails.application.routes.default_url_options[:port] = 3000
+  
+  config.hosts << "45db5f6534b149fb82485877aca877c3.vfs.cloud9.ap-northeast-1.amazonaws.com"
 end
