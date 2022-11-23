@@ -2,12 +2,27 @@ class MahjongsController < ApplicationController
   require "net/http"
   require "uri"
   require "json"
+
+  def initialize()
+    @win_tile = nil   #アガリ牌
+    @melds = false   #鳴き
+    @dora = nil  #ドラ
+    @dora_ura = nil  #裏ドラ
+    @player_wind = nil  #自風
+    @round_wind = nil  #場風
+    @is_richi = false  #リーチかどうか
+    @is_tumo = false  #ツモかどうか
+    @is_ippatu = false  #一発かどうか
+    @is_rinshan = false  #嶺上開花かどうか
+  end
   
   def new
   end
 
   def create
+    #binding.pry
     @rise = Rise.new(rise_params)
+    #@is_richi = true_or_false(params[:rise][:鳴き])
     if @rise.save
       redirect_to result_path(@rise)
     else
@@ -48,5 +63,6 @@ class MahjongsController < ApplicationController
 
   def rise_params
     params.require(:rise).permit(:image, :is_richi, :is_ippatu, :is_rinshan, :is_tumo, :melds, :win_title, :dora, :dora_ura, :player_wind, :round_wind)
+
   end
 end
