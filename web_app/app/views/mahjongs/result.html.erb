@@ -1,8 +1,12 @@
 <p>画像</p>
+  <!-- 画像の表示 -->
   <% if @rise.image.attached? %>
     <%= image_tag @rise.image, size: "300x200" %>
   <% end %>
 
-  <%= @response_body %>
+  <%= @response_body %><br>
 
+  <%= @is_richi %><br>
+  
+  <!-- 戻るボタン -->
   <%= link_to "戻る", root_path %>

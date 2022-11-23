@@ -3,6 +3,16 @@
 
   <h4>画像</h4>
   <%= f.file_field :image, accept: "image/*" %>
+
+  <!-- チェックボックス -->
+  <div class="field">
+    <% %w(鳴き リーチ ツモ 一発 嶺上開花).each.with_index do |option,i| %>
+    <label>
+      <%= check_box_tag 'rise[options][]'%>
+      <%= option %>
+    </label>
+    <% end %>
+  </div>
   
   <%= f.submit '投稿' %>
   
