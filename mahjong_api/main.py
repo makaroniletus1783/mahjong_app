@@ -38,4 +38,4 @@ def create_image(image: Image):
     os.remove(file_name)
 
     # レスポンスbody
-    return {"res": "ok", "画像": detections, "リーチ": is_richi}
+    return {"is_richi": is_richi, "画像": detections}

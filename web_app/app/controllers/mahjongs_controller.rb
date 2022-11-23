@@ -15,7 +15,7 @@ class MahjongsController < ApplicationController
     @is_ippatu = false  #一発かどうか
     @is_rinshan = false  #嶺上開花かどうか
   end
-
+  
   def new
   end
 
@@ -34,7 +34,7 @@ class MahjongsController < ApplicationController
     @rise = Rise.find(params[:id])
     begin
       image_url = @rise.image_url
-      is_richi = false
+      @is_richi = @rise.is_richi
 
       uri = URI.parse("http://127.0.0.1:8000/mahjong/predict")
       request = Net::HTTP::Post.new(uri)
@@ -42,7 +42,7 @@ class MahjongsController < ApplicationController
       request["Accept"] = "application/json"
       request.body = JSON.dump({
         "image_url" => image_url,
-        "is_richi" => is_richi,
+        "is_richi" => @is_richi
       })
 
       req_options = {
@@ -62,6 +62,7 @@ class MahjongsController < ApplicationController
   private
 
   def rise_params
-    params.require(:rise).permit(:image, options: [])
+    params.require(:rise).permit(:image, :is_richi, :is_ippatu, :is_rinshan, :is_tumo, :melds, :win_title, :dora, :dora_ura, :player_wind, :round_wind)
+
   end
 end

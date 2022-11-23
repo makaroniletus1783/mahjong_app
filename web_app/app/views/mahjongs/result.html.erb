@@ -1,10 +1,12 @@
 <p>画像</p>
   <!-- 画像の表示 -->
   <% if @rise.image.attached? %>
-    <%= image_tag @rise.image, size: "300x200" %>
+    <%= image_tag @rise.image, size: "300x200" %><br>
   <% end %>
 
   <%= @response_body %><br>
+  
+  <%= @is_richi %><br>
 
   <%= @is_richi %><br>
   
