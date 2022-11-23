@@ -73,4 +73,5 @@ Rails.application.configure do
   Rails.application.routes.default_url_options[:port] = 3000
   
   config.hosts << "45db5f6534b149fb82485877aca877c3.vfs.cloud9.ap-northeast-1.amazonaws.com"
+  config.hosts << "d94dd97233134b4e83e698ff1c825edb.vfs.cloud9.ap-northeast-1.amazonaws.com"
 end
