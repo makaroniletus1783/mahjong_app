@@ -1,6 +1,16 @@
-<h1>画像投稿</h1>
-<%= form_with model: Rise.new, url:'/mahjong' do |f| %>
+<!-- エラーメッセージ -->
+<% if @rise.errors.any? %>
+  <div class = "alert">
+    <ul>
+      <% @rise.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
 
+<h1>画像投稿</h1>
+<%= form_with model: @rise, url:'/mahjong', local: true do |f| %>
   <h4>画像</h4>
   <%= f.file_field :image, accept: "image/*" %><br>
   
@@ -20,11 +30,8 @@
   <%= f.select :player_wind, {東: "ton", 南: "nan", 西: "sya", 北:"pe"}, {include_blank: '選択'}, class: 'options_select'%>
   <%= f.label :自風 %>
   
-  <%= f.select :player_wind, {東: "ton", 南: "nan", 西: "sya", 北:"pe"}, {include_blank: '選択'}, class: 'options_select'%>
+  <%= f.select :round_wind, {東: "ton", 南: "nan", 西: "sya", 北:"pe"}, {include_blank: '選択'}, class: 'options_select'%>
   <%= f.label :場風 %>
-  
-  
-  
   
   <div class="field">
     <%= f.check_box :is_richi %>

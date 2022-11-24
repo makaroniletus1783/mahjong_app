@@ -4,16 +4,16 @@ class MahjongsController < ApplicationController
   require "json"
 
   def new
+    @rise = Rise.new
   end
 
   def create
     #binding.pry
     @rise = Rise.new(rise_params)
-    #@is_richi = true_or_false(params[:rise][:鳴き])
     if @rise.save
       redirect_to result_path(@rise)
     else
-      render :new
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -40,9 +40,15 @@ class MahjongsController < ApplicationController
         http.request(request)
       end
     rescue Exception => e
-      @response_body = e.message
+      @error = e.message
+      @score = 5200
+      @fu = [3, 40]
+      @yaku = ["Tanyao", "Sanshoku", "Doukou"]
     else
       @response_body = JSON.parse(response.body)
+      @score = 5200
+      @fu = [3, 40]
+      @yaku = ["Tanyao", "Sanshoku", "Doukou"]
     end
   end
 

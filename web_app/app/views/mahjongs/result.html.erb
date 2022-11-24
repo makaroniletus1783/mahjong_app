@@ -1,12 +1,30 @@
+<!-- エラーメッセージを表示 -->
+<% if @error.present? %>
+ <%= @error %>
+<% end %>
+
+<!--　応答確認 -->
+<% if @response_body.present?%>
+  <%= @response_body %>
+<% end %>
+
+
 <p>画像</p>
   <!-- 画像の表示 -->
   <% if @rise.image.attached? %>
     <%= image_tag @rise.image, size: "300x200" %><br>
   <% end %>
 
-  <%= @response_body %><br>
+  <!-- 点数の表示 -->
+  <%= @score %><br>
 
-  <%= @is_richi %><br>
+  <!-- 符の表示 -->
+  <p><%= @fu[1] %>符<%= @fu[0] %>翻</p><br>
+
+  <!-- 役の表示 -->
+  <% @yaku.each do |yaku| %>
+    <p><%= yaku %>　1翻</p>
+  <% end %>
   
   <!-- 戻るボタン -->
   <%= link_to "戻る", root_path %>
