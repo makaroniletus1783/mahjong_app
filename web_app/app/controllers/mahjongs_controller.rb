@@ -39,16 +39,21 @@ class MahjongsController < ApplicationController
       response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
         http.request(request)
       end
+      @response_body = JSON.parse(response.body)
     rescue Exception => e
       @error = e.message
-      @score = 5200
-      @fu = [3, 40]
+      @parent = 5200
+      @child = 0
+      @han = 3
+      @fu = 40
       @yaku = ["Tanyao", "Sanshoku", "Doukou"]
     else
-      @response_body = JSON.parse(response.body)
-      @score = 5200
-      @fu = [3, 40]
-      @yaku = ["Tanyao", "Sanshoku", "Doukou"]
+      @parent = @response_body["parent"]
+      @child = @response_body["child"]
+      @fu = @response_body["fu"]
+      @han = @response_body["han"]
+
+      @yaku = @response_body["yaku"]
     end
   end
 

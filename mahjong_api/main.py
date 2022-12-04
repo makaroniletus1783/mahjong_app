@@ -6,6 +6,7 @@ from fastapi import FastAPI
 from pydantic import BaseModel  # リクエストbodyを定義するために必要
 from typing import List  # ネストされたBodyを定義するために必要
 import prediction as pi
+import calculation as cal
 
 app = FastAPI()
 
@@ -37,5 +38,14 @@ def create_image(image: Image):
 
     os.remove(file_name)
 
+    # 点数計算
+    man_test = '234555'
+    pin_test = '555'
+    sou_test = '22555'
+    honors_test = None
+
+    math = cal.Calculation(man_test, pin_test, sou_test, honors_test)
+    hand = math.print_hand_result()
+
     # レスポンスbody
-    return {"res": "ok", "画像": detections}
+    return {"res": "ok", "画像": detections, "han": hand['han'], "fu": hand['fu'], "parent": hand['parent'], "child": hand['child'], "yaku": hand['yaku']}
