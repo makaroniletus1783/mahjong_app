@@ -1,15 +1,28 @@
 <!-- エラーメッセージ -->
 <% if @rise.errors.any? %>
   <div class = "alert">
-    <ul>
+    
       <% @rise.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
-    </ul>
+    
+    「Win title can't be blank」：上がり牌を指定してください． <p>
+    「Dora can't be blank」：ドラを指定してください． <p>
+    「Dora ura can't be blank」：裏ドラを指定してください． <p>
+    「Round wind can't be blank」：場風を指定してください． <p>
+    「Image can't be blank」：画像ファイルを挿入してください． <p>
+    更新ボタン(ctr + R)を押してください！<p>
   </div>
 <% end %>
 
-<h1>画像投稿</h1>
+<body>
+<div class = "back-scene">
+<div class = "yellow-scene1">
+<div class = "orange-scene1">
+<div class="box5">
+<h1>麻雀点数計算アプリ
+</h1>
+</div>
 <%= form_with model: @rise, url:'/mahjong', local: true do |f| %>
   <h4>画像</h4>
   <%= f.file_field :image, accept: "image/*" %><br>
@@ -32,7 +45,7 @@
   
   <%= f.select :round_wind, {東: "ton", 南: "nan", 西: "sya", 北:"pe"}, {include_blank: '選択'}, class: 'options_select'%>
   <%= f.label :場風 %>
-  
+  <br></br>
   <div class="field">
     <%= f.check_box :is_richi %>
     <%= f.label :リーチ %>
@@ -59,5 +72,21 @@
   </div>
   
   <%= f.submit '投稿' %>
+
   
+
+  </div> <!-- orange-scene1のdiv -->
+
+  <div class = "lowwhite-scene1">
+  <div class = "box1">アプリ使用方法</div> <br>
+  1. 画像ファイルに点数計算をしたい画像を<span class = "font-red">必ず</span>入れてください． <br>
+  2. 「上がり牌」，「ドラ」，「裏ドラ」，「自風」，「場風」を<span class="font-red">必ず</span>選んでください． <br>
+  3. その他オプションを指定したら，投稿ボタンをクリック！
+  </div> <!-- lowwhite-scene1のdiv -->
+  </div> <!-- yellow-scene1のdiv -->
+  </div> <!-- back-sceneのdiv -->
+</body>
+
+<footer>
+</footer>
 <% end %>
