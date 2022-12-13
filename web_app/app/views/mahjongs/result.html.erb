@@ -8,6 +8,10 @@
   <%= @response_body %>
 <% end %>
 
+<body>
+<div class ="back-scene">
+<div class ="yellow-scene2">
+
 
 <p>画像</p>
   <!-- 画像の表示 -->
@@ -15,13 +19,17 @@
     <%= image_tag @rise.image, size: "300x200" %><br>
   <% end %>
 
+  <div class="orange-scene2">
   <!-- 点数の表示 -->
-  <p>親：<%= @parent %></p><br>
-  <p>子：<%= @child %></p><br>
+  親：<%= @parent %>　
+  子：<%= @child %><br>
+  
 
   <!-- 符の表示 -->
-  <p><%= @fu %>符<%= @han %>翻</p><br>
+  <%= @fu %>符<%= @han %>翻
+  </div> <!-- orange-scene2のdiv -->
 
+  <div class="lowwhite-scene2">
   <!-- 役の表示 -->
   <% @yaku.each do |yaku| %>
     <p><%= yaku['name'] %>　1翻</p>
@@ -29,3 +37,11 @@
   
   <!-- 戻るボタン -->
   <%= link_to "戻る", root_path %>
+
+  </div> <!-- lowwhite-scene2のdiv -->
+  </div> <!--  yellow-scene2のdiv -->
+  </div> <!-- back-scene2のdiv -->
+
+  <footer>
+</footer>
+</body>

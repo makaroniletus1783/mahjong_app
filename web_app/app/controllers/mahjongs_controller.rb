@@ -21,7 +21,8 @@ class MahjongsController < ApplicationController
     @rise = Rise.find(params[:id])
     begin
       image_url = @rise.image_url
-      @is_richi = @rise.is_richi
+      is_richi = @rise.is_richi
+      win_tile = @rise.win_title
 
       uri = URI.parse("http://127.0.0.1:8000/mahjong/predict")
       request = Net::HTTP::Post.new(uri)
@@ -29,7 +30,8 @@ class MahjongsController < ApplicationController
       request["Accept"] = "application/json"
       request.body = JSON.dump({
         "image_url" => image_url,
-        "is_richi" => @is_richi,
+        "is_richi" => is_richi,
+        "win_tile" => win_tile,
       })
 
       req_options = {

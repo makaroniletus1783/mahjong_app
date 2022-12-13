@@ -1,63 +1,92 @@
 <!-- エラーメッセージ -->
 <% if @rise.errors.any? %>
   <div class = "alert">
-    <ul>
+    
       <% @rise.errors.full_messages.each do |message| %>
         <li><%= message %></li>
       <% end %>
-    </ul>
+    
+    「Win title can't be blank」：上がり牌を指定してください． <p>
+    「Dora can't be blank」：ドラを指定してください． <p>
+    「Dora ura can't be blank」：裏ドラを指定してください． <p>
+    「Round wind can't be blank」：場風を指定してください． <p>
+    「Image can't be blank」：画像ファイルを挿入してください． <p>
+    更新ボタン(ctr + R)を押してください！<p>
   </div>
 <% end %>
 
-<h1>画像投稿</h1>
-<%= form_with model: @rise, url:'/mahjong', local: true do |f| %>
-  <h4>画像</h4>
-  <%= f.file_field :image, accept: "image/*" %><br>
+<body>
+ <div class = "back-scene">
+  <div class = "yellow-scene1">
+   <div class = "orange-scene1">
+    <div class="box5">
+     <h1>麻雀点数計算アプリ
+     </h1>
+    </div>
+    <%= form_with model: @rise, url:'/mahjong', local: true do |f| %>
+    <h4>画像</h4>
+    <%= f.file_field :image, accept: "image/*" %><br>
   
-  <h4>オプション</h4>
+    <h4>オプション</h4>
   
-  <% @hai = ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9", "ton", "nan", "sya", "pe", "haku", "hatu", "tyun"] %>
+    <% @hai = ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9", "ton", "nan", "sya", "pe", "haku", "hatu", "tyun"] %>
   
-  <%= f.select :win_title, @hai, {include_blank: '選択'}, class: 'options_select' %>
-  <%= f.label :上がり牌 %>
+    <%= f.select :win_title, @hai, {include_blank: '選択'}, class: 'options_select' %>
+    <%= f.label :上がり牌 %>
   
-  <%= f.select :dora, @hai, {include_blank: '選択'}, class: 'options_select' %>
-  <%= f.label :ドラ %>
+    <%= f.select :dora, @hai, {include_blank: '選択'}, class: 'options_select' %>
+    <%= f.label :ドラ %>
   
-  <%= f.select :dora_ura, @hai, {include_blank: '選択'}, class: 'options_select' %>
-  <%= f.label :裏ドラ %>
+    <%= f.select :dora_ura, @hai, {include_blank: '選択'}, class: 'options_select' %>
+    <%= f.label :裏ドラ %>
   
-  <%= f.select :player_wind, {東: "ton", 南: "nan", 西: "sya", 北:"pe"}, {include_blank: '選択'}, class: 'options_select'%>
-  <%= f.label :自風 %>
+    <%= f.select :player_wind, {東: "ton", 南: "nan", 西: "sya", 北:"pe"}, {include_blank: '選択'}, class: 'options_select'%>
+    <%= f.label :自風 %>
   
-  <%= f.select :round_wind, {東: "ton", 南: "nan", 西: "sya", 北:"pe"}, {include_blank: '選択'}, class: 'options_select'%>
-  <%= f.label :場風 %>
+    <%= f.select :round_wind, {東: "ton", 南: "nan", 西: "sya", 北:"pe"}, {include_blank: '選択'}, class: 'options_select'%>
+    <%= f.label :場風 %>
   
-  <div class="field">
-    <%= f.check_box :is_richi %>
-    <%= f.label :リーチ %>
-  </div>
+    <div class="field">
+      <%= f.check_box :is_richi %>
+      <%= f.label :リーチ %>
+    </div>
   
-  <div class="field">
-    <%= f.check_box :is_ippatu %>
-    <%= f.label :一発 %>
-  </div>
+    <div class="field">
+      <%= f.check_box :is_ippatu %>
+      <%= f.label :一発 %>
+    </div>
   
-  <div class="field">
-    <%= f.check_box :is_rinshan %>
-    <%= f.label :嶺上開花 %>
-  </div>
+    <div class="field">
+      <%= f.check_box :is_rinshan %>
+      <%= f.label :嶺上開花 %>
+    </div>
   
-  <div class="field">
-    <%= f.check_box :is_tumo %>
-    <%= f.label :ツモ %>
-  </div>
+    <div class="field">
+      <%= f.check_box :is_tumo %>
+      <%= f.label :ツモ %>
+    </div>
   
-  <div class="field">
-    <%= f.check_box :melds %>
-    <%= f.label :鳴き %>
-  </div>
+    <div class="field">
+      <%= f.check_box :melds %>
+      <%= f.label :鳴き %>
+    </div>
   
-  <%= f.submit '投稿' %>
+    <%= f.submit '投稿' %>
   
-<% end %>
+  <% end %>
+
+
+  </div> <!-- orange-scene1のdiv -->
+
+  <div class = "lowwhite-scene1">
+  <div class = "box1">アプリ使用方法</div> <br>
+  1. 画像ファイルに点数計算をしたい画像を<span class = "font-red">必ず</span>入れてください． <br>
+  2. 「上がり牌」，「ドラ」，「裏ドラ」，「自風」，「場風」を<span class="font-red">必ず</span>選んでください． <br>
+  3. その他オプションを指定したら，投稿ボタンをクリック！
+  </div> <!-- lowwhite-scene1のdiv -->
+  </div> <!-- yellow-scene1のdiv -->
+  </div> <!-- back-sceneのdiv -->
+</body>
+
+<footer>
+</footer>
