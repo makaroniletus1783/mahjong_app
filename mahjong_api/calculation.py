@@ -50,7 +50,7 @@ class Calculation:
             elif name == 'tyun':
                 honors += '7'
 
-            if name[1] == 0:
+            if name[1] == '0':
                 has_aka_dora = True
 
         #アガリ形(man=マンズ, pin=ピンズ, sou=ソーズ, honors=字牌)
@@ -179,11 +179,11 @@ class Calculation:
         round_wind = self.wind(yaku['round_wind'])
 
         config = HandConfig(is_tsumo=yaku['is_tsumo'], is_rinshan=yaku['is_rinshan'], player_wind=player_wind, round_wind=round_wind,
-                            is_riichi=yaku['is_riichi'], is_ippatsu=yaku['is_ippatsu'], is_chankan=yaku['is_cahnkan'], is_haitei=yaku[
+                            is_riichi=yaku['is_riichi'], is_ippatsu=yaku['is_ippatsu'], is_chankan=yaku['is_chankan'], is_haitei=yaku[
                                 'is_haitei'], is_houtei=yaku['is_houtei'], is_daburu_riichi=yaku['is_daburu_riichi'],
                             is_nagashi_mangan=yaku['is_nagashi_mangan'], is_tenhou=yaku[
                                 'is_tenhou'], is_renhou=yaku['is_renhou'], is_chiihou=yaku['is_chiihou'],
-                            options=OptionalRules(has_open_tanyao=True, has_aka_dora=True, fu_for_open_pinfu=True, has_double_yakuman=True, kiriage=True, fu_for_pinfu_tsumo=True, renhou_as_yakuman=True, has_daisharin=True, has_daisharin_other_suits=True,
+                            options=OptionalRules(has_open_tanyao=True, has_aka_dora=has_aka_dora, fu_for_open_pinfu=True, has_double_yakuman=True, kiriage=True, fu_for_pinfu_tsumo=True, renhou_as_yakuman=True, has_daisharin=True, has_daisharin_other_suits=True,
                                                   kazoe_limit=HandConfig.KAZOE_LIMITED))
 
         self.hand_result = calculator.estimate_hand_value(

@@ -3,6 +3,15 @@ class MahjongsController < ApplicationController
   require "uri"
   require "json"
 
+  @@minkan = []
+  @@annkan = []
+  @@chi = []
+  @@pon = []
+  @@chankan = []
+  @@nuki_dora = []
+  @@dora = []
+  @@ura_dora = []
+
   def new
     @rise = Rise.new
   end
@@ -10,6 +19,15 @@ class MahjongsController < ApplicationController
   def create
     #binding.pry
     @rise = Rise.new(rise_params)
+    @@minkan = check(params[:minkan])
+    @@annkan = check(params[:annkan])
+    @@chi = check(params[:chi])
+    @@pon = check(params[:pon])
+    @@chankan = check(params[:chankan])
+    @@nuki_dora = check(params[:nuki_dora])
+    @@dora = check(params[:dora])
+    @@ura_dora = check(params[:ura_dora])
+
     if @rise.save
       redirect_to result_path(@rise)
     else
@@ -21,7 +39,6 @@ class MahjongsController < ApplicationController
     @rise = Rise.find(params[:id])
     begin
       image_url = @rise.image_url
-      is_richi = @rise.is_richi
       win_tile = @rise.win_title
 
       uri = URI.parse("http://127.0.0.1:8000/mahjong/predict")
@@ -30,8 +47,29 @@ class MahjongsController < ApplicationController
       request["Accept"] = "application/json"
       request.body = JSON.dump({
         "image_url" => image_url,
-        "is_richi" => is_richi,
-        "win_tile" => win_tile,
+        "minkan" => @@minkan,
+        "annkan" => @@annkan,
+        "chi" => @@chi,
+        "pon" => @@pon,
+        "chankan" => @@chankan,
+        "nukidora" => @@nuki_dora,
+        "dora" => @@dora,
+        "ura_dora" => @@ura_dora,
+        "win_tile" => @rise.win_title,
+        "is_tsumo" => @rise.is_tumo,
+        "is_riichi" => @rise.is_richi,
+        "is_ippatsu" => @rise.is_ippatu,
+        "is_rinshan" => @rise.is_rinshan,
+        "is_chankan" => @rise.is_chankan,
+        "is_haitei" => @rise.is_haitei,
+        "is_houtei" => @rise.is_houtei,
+        "is_daburu_riichi" => @rise.is_daburu_riichi,
+        "is_nagashi_mangan" => @rise.is_nagashi_mangan,
+        "is_tenhou" => @rise.is_tenhou,
+        "is_renhou" => @rise.is_renhou,
+        "is_chiihou" => @rise.is_chiihou,
+        "player_wind" => @rise.player_wind,
+        "round_wind" => @rise.round_wind,
       })
 
       req_options = {
@@ -44,17 +82,16 @@ class MahjongsController < ApplicationController
       @response_body = JSON.parse(response.body)
     rescue Exception => e
       @error = e.message
-      @parent = 5200
+      @parent = 0
       @child = 0
-      @han = 3
-      @fu = 40
-      @yaku = ["Tanyao", "Sanshoku", "Doukou"]
+      @han = 0
+      @fu = 0
+      @yaku = nil
     else
       @parent = @response_body["parent"]
       @child = @response_body["child"]
       @fu = @response_body["fu"]
       @han = @response_body["han"]
-
       @yaku = @response_body["yaku"]
     end
   end
@@ -62,6 +99,14 @@ class MahjongsController < ApplicationController
   private
 
   def rise_params
-    params.require(:rise).permit(:image, :is_richi, :is_ippatu, :is_rinshan, :is_tumo, :melds, :win_title, :dora, :dora_ura, :player_wind, :round_wind)
+    params.require(:rise).permit(:image, :win_title, :player_wind, :round_wind, :is_chankan, :is_chiihou, :is_daburu_riichi, :is_haitei, :is_houtei, :is_ippatu, :is_nagashi_mangan, :is_renhou, :is_richi, :is_rinshan, :is_tenhou, :is_tumo)
+  end
+
+  def check(a)
+    if a.present?
+      return a
+    else
+      return []
+    end
   end
 end

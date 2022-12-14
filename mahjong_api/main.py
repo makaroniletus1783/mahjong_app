@@ -15,7 +15,7 @@ app = FastAPI()
 # リクエストbodyを定義
 class Image(BaseModel):
     image_url: str
-    minkan: List[str] = []
+    minkan: List[str]
     annkan: List[str] = []
     chi: List[str] = []
     pon: List[str] = []
@@ -28,7 +28,7 @@ class Image(BaseModel):
     is_riichi: bool
     is_ippatsu: bool
     is_rinshan: bool
-    is_cahnkan: bool
+    is_chankan: bool
     is_haitei: bool
     is_houtei: bool
     is_daburu_riichi: bool
@@ -63,7 +63,7 @@ async def create_image(image: Image):
     yaku['is_riichi'] = image.is_riichi
     yaku['is_ippatsu'] = image.is_ippatsu
     yaku['is_rinshan'] = image.is_rinshan
-    yaku['is_cahnkan'] = image.is_cahnkan
+    yaku['is_chankan'] = image.is_chankan
     yaku['is_haitei'] = image.is_haitei
     yaku['is_houtei'] = image.is_houtei
     yaku['is_daburu_riichi'] = image.is_daburu_riichi
@@ -90,12 +90,14 @@ async def create_image(image: Image):
 
     # 点数計算
     # テストデータ
-    hai = ['m2', 'm2', 'm2', 'm2', 'm4', 'm4', 'm4', 'm5',
-           'm5', 'm7', 'm7', 'm7', 'm7', 'm9', 'm9', 'm9', 'm9']
-    yaku_test = {'minkan': ['m9'], 'annkan': ['m2', 'm7'], 'chi': [], 'pon': [], 'chankan': [], 'nukidora': [], 'dora': ['m1', 'm1', 'm6', 'm8'], 'ura_dora': [], 'win_tile': 'm5', 'is_tsumo': True, 'is_riichi': False, 'is_ippatsu': False,
-                 'is_rinshan': True, 'is_cahnkan': False, 'is_haitei': False, 'is_houtei': False, 'is_daburu_riichi': False, 'is_nagashi_mangan': False, 'is_tenhou': False, 'is_renhou': False, 'is_chiihou': False, 'player_wind': '西', 'round_wind': '東'}
+    hai = ['m3', 'm3', 'm3', 'm5', 'm6', 'm7', 's3',
+           's4', 's5', 'p5', 'p6', 'p7', 'tyun', 'tyun']
 
-    math = cal.Calculation(hai, yaku_test)
+    # 字牌は01～07、カンは小さい数の牌を一つだけ選択
+    yaku_test = {'minkan': [], 'annkan': [], 'chi': [], 'pon': [], 'chankan': [], 'nukidora': [], 'dora': [], 'ura_dora': [], 'win_tile': 'm3', 'is_tsumo': False, 'is_riichi': True, 'is_ippatsu': False, 'is_rinshan': False,
+                 'is_chankan': False, 'is_haitei': False, 'is_houtei': False, 'is_daburu_riichi': False, 'is_nagashi_mangan': False, 'is_tenhou': False, 'is_renhou': False, 'is_chiihou': False, 'player_wind': '北', 'round_wind': '東'}
+
+    math = cal.Calculation(detections, yaku)
     hand = math.print_hand_result()
 
     # レスポンスbody

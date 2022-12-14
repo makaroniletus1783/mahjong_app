@@ -13,7 +13,7 @@
 <div class ="yellow-scene2">
 
 
-<p>画像</p>
+<h2>結果</h2>
   <!-- 画像の表示 -->
   <% if @rise.image.attached? %>
     <%= image_tag @rise.image, size: "300x200" %><br>
@@ -21,8 +21,8 @@
 
   <div class="orange-scene2">
   <!-- 点数の表示 -->
-  親：<%= @parent %>　
-  子：<%= @child %><br>
+  親：<%= @parent %>点　
+  子：<%= @child %>点<br>
   
 
   <!-- 符の表示 -->
@@ -31,9 +31,15 @@
 
   <div class="lowwhite-scene2">
   <!-- 役の表示 -->
-  <% @yaku.each do |yaku| %>
-    <p><%= yaku['name'] %>　1翻</p>
-  <% end %>
+  <% if @yaku != nil %>
+    <% @yaku.each do |yaku| %>
+      <p><%= yaku['name'] %>　1翻</p>
+    <% end %>
+
+  <% else %>
+    <p>入力内容を確認してもう一度入力してください</p>
+     
+  <%end%>
   
   <!-- 戻るボタン -->
   <%= link_to "戻る", root_path %>

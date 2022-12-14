@@ -2,8 +2,7 @@ class Rise < ApplicationRecord
   has_one_attached :image
 
   validates :win_title, presence: true
-  validates :dora, presence: true
-  validates :dora_ura, presence: true
+  validates :player_wind, presence: true
   validates :round_wind, presence: true
   validates :image, presence: true
 

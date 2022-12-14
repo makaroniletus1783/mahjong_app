@@ -25,8 +25,11 @@ else:
 
 BCCD_CLASSES = ('rbc', 'wbc', 'platelets')
 
-MAHJONG_CLASSES = MAHJONG_CLASSES = ('m1', 'm2', 'm3', 'm4', 'm5', 'm6', 'm7', 'm8', 'm9', 'p1', 'p2', 'p3', 'p4', 'p5', 'p6',
-                                     'p7', 'p8', 'p9', 's1', 's2', 's3', 's4', 's5', 's6', 's7', 's8', 's9', 'ton', 'nan', 'sha', 'pei', 'haku', 'hatu', 'tyun')
+MAHJONG_CLASSES = ('m1', 'm2', 'm4', 'm3', 'm5', 'm6', 'm7', 'm8', 'm9', 's1', 's3', 's4', 's5', 'p5', 'p6', 'p7', 'tyun',
+                   's2',  's6', 's7', 's8', 's9', 'hatu',
+                   'p1', 'p2', 'p3', 'p4',   'p8', 'p9',
+                   'ton', 'nan', 'sha', 'pei', 'haku',
+                   'pe')
 
 VOC_CLASSES = ('aeroplane', 'bicycle', 'bird', 'boat',
                'bottle', 'bus', 'car', 'cat', 'chair',
