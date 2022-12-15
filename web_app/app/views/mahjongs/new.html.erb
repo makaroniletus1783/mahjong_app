@@ -1,56 +1,159 @@
-<h1>画像投稿</h1>
-<%= form_with model: Rise.new, url:'/mahjong' do |f| %>
+<body>
+ <div class = "back-scene">
+  <!-- エラーメッセージ -->
+   <% if @rise.errors.any? %>
+    <div class="alert">
+     <span class = "font-red">必須項目が入力されていません</span>
+    </div>
+  <% end %>
+  <div class = "yellow-scene1">
+   <div class = "orange-scene1">
+    <div class="box5">
+     <h1>麻雀点数計算アプリ</h1>
+    </div>
+    <p>　</p>
+    <%= form_with model: @rise, url:'/mahjong', local: true do |f| %>
+    <h4>画像（必須）</h4>
+    <%= f.file_field :image, accept: "image/*" %><br>
 
-  <h4>画像</h4>
-  <%= f.file_field :image, accept: "image/*" %><br>
+    <p>　</p>
+    <h4>オプション（必須）</h4>
   
-  <h4>オプション</h4>
+    <% @hai = {"p1"=>"p1", "p2"=>"p2", "p3"=>"p3", "p4"=>'p4', "p5"=>"p5", "p6"=>"p6", "p7"=>"p7", "p8"=>"p8", "p9"=>"p9", 
+    "s1"=>"s1", "s2"=>"s2", "s3"=>"s3", "s4"=>"s4", "s5"=>"s5", "s6"=>"s6", "s7"=>"s7", "s8"=>"s8", "s9"=>"s9", 
+    "m1"=>"m1", "m2"=>"m2", "m3"=>"m3", "m4"=>"m4", "m5"=>"m5", "m6"=>"m6", "m7"=>"m7", "m8"=>"m8", "m9"=>"m9", 
+    "ton"=>"01", "nan"=>"02", "sya"=>"03", "pe"=>"04", "haku"=>"05", "hatu"=>"06", "tyun"=>"07"} %>
   
-  <% @hai = ["p1", "p2", "p3", "p4", "p5", "p6", "p7", "p8", "p9", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", "m1", "m2", "m3", "m4", "m5", "m6", "m7", "m8", "m9", "ton", "nan", "sya", "pe", "haku", "hatu", "tyun"] %>
+    <%= f.select :win_title, @hai.map{|key, value| [key, value]}, {include_blank: '選択'}, {class: 'options_select'} %>
+    <%= f.label :上がり牌　 %>
   
-  <%= f.select :win_title, @hai, {include_blank: '選択'}, class: 'options_select' %>
-  <%= f.label :上がり牌 %>
+    <%= f.select :player_wind, ["東", "南", "西", "北"] , {include_blank: '選択'}, class: 'options_select'%>
+    <%= f.label :自風　 %>
   
-  <%= f.select :dora, @hai, {include_blank: '選択'}, class: 'options_select' %>
-  <%= f.label :ドラ %>
+    <%= f.select :round_wind, ["東", "南", "西", "北"], {include_blank: '選択'}, class: 'options_select'%>
+    <%= f.label :場風　 %>
+
+    <p>　</p>
+    <h4>オプション（任意）</h4>
+    <div class="field">
+      <%= f.check_box :is_richi, class: "option_select" %>
+      <%= f.label :リーチ　 %>
   
-  <%= f.select :dora_ura, @hai, {include_blank: '選択'}, class: 'options_select' %>
-  <%= f.label :裏ドラ %>
+      <%= f.check_box :is_tumo, class: "option_select" %>
+      <%= f.label :ツモ　 %>
+    
   
-  <%= f.select :player_wind, {東: "ton", 南: "nan", 西: "sya", 北:"pe"}, {include_blank: '選択'}, class: 'options_select'%>
-  <%= f.label :自風 %>
-  
-  <%= f.select :player_wind, {東: "ton", 南: "nan", 西: "sya", 北:"pe"}, {include_blank: '選択'}, class: 'options_select'%>
-  <%= f.label :場風 %>
-  
-  
+    
+      <%= f.check_box :is_rinshan, class: "option_select" %>
+      <%= f.label :嶺上開花　 %>
+    
   
   
-  <div class="field">
-    <%= f.check_box :is_richi %>
-    <%= f.label :リーチ %>
-  </div>
+      <%= f.check_box :is_ippatu, class: "option_select" %>
+      <%= f.label :一発　 %>
+    
+
+      <%= f.check_box :is_chankan, class: "option_select" %>
+      <%= f.label :チャンカン　 %>
+    
+
   
-  <div class="field">
-    <%= f.check_box :is_ippatu %>
-    <%= f.label :一発 %>
-  </div>
+      <%= f.check_box :is_haitei, class: "option_select" %>
+      <%= f.label :ハイテイ　 %>
+    
+
   
-  <div class="field">
-    <%= f.check_box :is_rinshan %>
-    <%= f.label :嶺上開花 %>
-  </div>
+      <%= f.check_box :is_houtei, class: "option_select" %>
+      <%= f.label :ホウテイ　%>
+    
+
+      <%= f.check_box :is_daburu_riichi, class: "option_select" %>
+      <%= f.label :ダブルリーチ　 %>
+
+    
+      <%= f.check_box :is_nagashi_mangan, class: "option_select" %>
+      <%= f.label :流しマンガン　 %>
+    
+
+    
+      <%= f.check_box :is_tenhou, class: "option_select" %>
+      <%= f.label :テンホウ　%>
+    
+
+      <%= f.check_box :is_renhou, class: "option_select" %>
+      <%= f.label :レンホウ %>
+
+    
+      <%= f.check_box :is_chiihou, class: "option_select" %>
+      <%= f.label :チイホウ %>
+    
+    </div>
+
+    <div class="field">
+    <%= javascript_pack_tag 'new' %>
+
+    <div class= "selection">
+    <p>ドラ　　　</p>
+    <%= select_tag 'dora', options_for_select(@hai), {include_hidden: true, class: 'sample_select2', multiple: true} %>
+    </div>
+
+    <div class= "selection">
+    <p>裏ドラ　</p>
+    <%= select_tag 'ura_dora', options_for_select(@hai), {include_hidden: false, class: 'sample_select2', multiple: true} %>
+    </div>
+
+    <div class= "selection">
+    <p>ミンカン　</p>
+    <%= select_tag 'minkan', options_for_select(@hai, "1"), {include_hidden: false, class: 'sample_select2', multiple: true} %>
+    </div>
+
+
+    <div class= "selection">
+    <p>アンカン　</p>
+    <%= select_tag 'annkan', options_for_select(@hai), {include_hidden: false, class: 'sample_select2', multiple: true} %>
+    </div>
+
+    <div class= "selection">
+    <p>チー　　</p>
+    <%= select_tag 'chi', options_for_select(@hai), {include_hidden: false, class: 'sample_select2', multiple: true} %>
+    </div>
+
+    <div class= "selection">
+    <p>ポン　　</p>
+    <%= select_tag 'pon', options_for_select(@hai), {include_hidden: false, class: 'sample_select2', multiple: true} %>
+    </div>
+
+    <div class= "selection">
+    <p>カカン　　</p>
+    <%= select_tag 'chankan', options_for_select(@hai), {include_hidden: false, class: 'sample_select2', multiple: true} %>
+    </div>
+
+    <div class= "selection">
+    <p>抜きドラ　</p>
+    <%= select_tag 'nuki_dora', options_for_select(@hai), {include_hidden: false, class: 'sample_select2', multiple: true} %>
+    </div>
+
+    </div>
   
-  <div class="field">
-    <%= f.check_box :is_tumo %>
-    <%= f.label :ツモ %>
-  </div>
-  
-  <div class="field">
-    <%= f.check_box :melds %>
-    <%= f.label :鳴き %>
-  </div>
-  
-  <%= f.submit '投稿' %>
-  
-<% end %>
+    <div class="submit">
+    <%= f.submit '投稿', class:"button" %>
+    </div>
+
+  <% end %>
+
+
+  </div> <!-- orange-scene1のdiv -->
+
+  <div class = "lowwhite-scene1">
+  <div class = "box1">アプリ使用方法</div> <br>
+  1. 画像ファイルに点数計算をしたい画像を<span class = "font-red">必ず</span>入れてください． <br>
+  2. 「上がり牌」，「自風」，「場風」を<span class="font-red">必ず</span>選んでください． <br>
+  3. 鳴きの入力の際、一番小さな牌を一つだけ入力してください（"m1, m2, m3" => "m1"） <br>
+  4. その他オプションを指定したら，投稿ボタンをクリック！
+  </div> <!-- lowwhite-scene1のdiv -->
+  </div> <!-- yellow-scene1のdiv -->
+  </div> <!-- back-sceneのdiv -->
+</body>
+
+<footer>
+</footer>

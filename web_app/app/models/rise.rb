@@ -1,10 +1,14 @@
 class Rise < ApplicationRecord
+  has_one_attached :image
+
+  validates :win_title, presence: true
+  validates :player_wind, presence: true
+  validates :round_wind, presence: true
+  validates :image, presence: true
 
   # ここから
   include Rails.application.routes.url_helpers
   # ここまでを追加してください。
-
-  has_one_attached :image
 
   #　ここから
   def image_url

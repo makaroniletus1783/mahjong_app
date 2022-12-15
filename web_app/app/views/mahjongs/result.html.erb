@@ -1,14 +1,53 @@
-<p>画像</p>
+<!-- エラーメッセージを表示 -->
+<% if @error.present? %>
+ <%= @error %>
+<% end %>
+
+<!--　応答確認 -->
+<% if @response_body.present?%>
+  <%= @response_body %>
+<% end %>
+
+<body>
+<div class ="back-scene">
+<div class ="yellow-scene2">
+
+
+<h2>結果</h2>
   <!-- 画像の表示 -->
   <% if @rise.image.attached? %>
     <%= image_tag @rise.image, size: "300x200" %><br>
   <% end %>
 
-  <%= @response_body %><br>
+  <div class="orange-scene2">
+  <!-- 点数の表示 -->
+  親：<%= @parent %>点　
+  子：<%= @child %>点<br>
   
-  <%= @is_richi %><br>
 
-  <%= @is_richi %><br>
+  <!-- 符の表示 -->
+  <%= @fu %>符<%= @han %>翻
+  </div> <!-- orange-scene2のdiv -->
+
+  <div class="lowwhite-scene2">
+  <!-- 役の表示 -->
+  <% if @yaku != nil %>
+    <% @yaku.each do |yaku| %>
+      <p><%= yaku['name'] %>　1翻</p>
+    <% end %>
+
+  <% else %>
+    <p>入力内容を確認してもう一度入力してください</p>
+     
+  <%end%>
   
   <!-- 戻るボタン -->
   <%= link_to "戻る", root_path %>
+
+  </div> <!-- lowwhite-scene2のdiv -->
+  </div> <!--  yellow-scene2のdiv -->
+  </div> <!-- back-scene2のdiv -->
+
+  <footer>
+</footer>
+</body>
