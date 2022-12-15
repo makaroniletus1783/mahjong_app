@@ -13,6 +13,7 @@ app = FastAPI()
 # リクエストbodyを定義
 class Image(BaseModel):
     image_url: str
+    is_richi: bool
 
 
 # シンプルなJSON Bodyの受け取り
@@ -21,6 +22,7 @@ class Image(BaseModel):
 # image = {"image_url": "contents/inu.jpg"}
 def create_image(image: Image):
     url = image.image_url
+    is_richi = image.is_richi
     response = requests.get(url)
     im = response.content
 
@@ -36,4 +38,4 @@ def create_image(image: Image):
     os.remove(file_name)
 
     # レスポンスbody
-    return {"res": "ok", "画像": detections}
+    return {"is_richi": is_richi, "画像": detections}
